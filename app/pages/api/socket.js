@@ -1,4 +1,4 @@
-import { Server } from "Socket.IO";
+import { Server } from "socket.io";
 import defaultBoard from "../../boards.json";
 import Game from "./../../logic/Game.js";
 import onConnectionInitiated from "./../../server/onConnectionInitiated.js";
