@@ -1,0 +1,59 @@
+{
+  "game": "game",
+  "tiles": [
+    { "type": "start", "walkable": true, "spawnDirection": [1, 0], "position": [1, 1] },
+    { "type": "road", "walkable": true, "position": [2, 1] },
+    { "type": "road", "walkable": true, "position": [3, 1] },
+    { "type": "road", "walkable": true, "position": [4, 1] },
+    { "type": "road", "walkable": true, "position": [4, 2] },
+    { "type": "road", "walkable": true, "position": [4, 3] },
+    { "type": "road", "walkable": true, "position": [4, 4] },
+    { "type": "road", "walkable": true, "position": [4, 5] },
+    { "type": "utility", "walkable": true, "position": [3, 5], "service": "store1" },
+    { "type": "building", "property": "house", "walkable": false, "position": [4, 0], "facing": [0, 1],  "ownedBy": null }
+  ],
+  "obstacles": [],
+  "propertiesStats": {
+    "house": {
+      "multiplier": 1.2,
+      "tiers": [
+        { "level": 0, "cost": 50, "rent": 20 },
+        { "level": 1, "cost": 100, "rent": 60 },
+        { "level": 2, "cost": 100, "rent": 90 }
+      ]
+    },
+    "house2": {
+      "multiplier": 1.2,
+      "tiers": [
+        { "level": 0, "cost": 100, "rent": 30 },
+        { "level": 1, "cost": 150, "rent": 80 },
+        { "level": 2, "cost": 150, "rent": 120 }
+      ]
+    },
+    "hotel": {
+      "multiplier": 1.5,
+      "tiers": [
+        { "level": 0, "cost": 300, "rent": 100 },
+        { "level": 1, "cost": 150, "rent": 150 },
+        { "level": 2, "cost": 150, "rent": 200 }
+      ]
+    },
+    "restaurant": { "multiplier": 1.2, "tiers": [] },
+    "office": { "multiplier": 1.1, "tiers": [] }
+  },
+  "services": {
+    "store1": {
+      "type": "store",
+      "items": [
+        { "name": "Knife", "price": 150 },
+        { "name": "Bomb", "price": 150 },
+        { "name": "Traffic Cone", "price": 100 }
+      ]
+    }
+  },
+  "movements": [
+    { "vehicle": "walk", "dice": 1 },
+    { "vehicle": "bike", "dice": 2 },
+    { "vehicle": "car", "dice": 3 }
+  ]
+}
