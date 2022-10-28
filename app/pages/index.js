@@ -8,10 +8,10 @@ import defaultBoard from "../boards.json";
 // let socket
 
 const Homepage = () => {
-  const [username, setUsername] = useState("");
+  const {socket,socketInitializer, userData, setUserData} = useContext(PlayerContext);
+  // const [username, setUsername] = useState(userData.name);
   const [gameCode, setGameCode] = useState("");
   const router = useRouter();
-  const {socket,socketInitializer} = useContext(PlayerContext);
 
   useEffect(() => {
     socketInitializer();
@@ -20,6 +20,7 @@ const Homepage = () => {
   useEffect(()=>{
     if (!socket) return;
     socketListeners();
+    checkId();
     return () => {
       socket.off("connect")
       socket.off("game-created");
@@ -39,10 +40,13 @@ const Homepage = () => {
     });
 
     socket.on("game-created", (gameCode) => {
-      // setGameCode(gameCode);
       toastSuccess("Game created: " + gameCode);
       router.push(`/${gameCode}`);
     });
+
+    socket.on("init:return-user", ({playerId, gameCode})=>{
+      if (gameCode === null) return
+    })
 
     socket.on("message-error", (msg) => {
       console.log(msg);
@@ -50,22 +54,26 @@ const Homepage = () => {
     });
   };
 
+  const checkId = () => {
+    socket.emit("init:user",userData);
+  }
+
   const handleCreate = () => {
-    if (username.length < 3) return toastError("Username must be at least 3 characters");
-    socket.emit("create-game", { id: "test", name: username });
+    if (userData.name.length < 3) return toastError("Username must be at least 3 characters");
+    socket.emit("create-game", { id: "test", name: userData.name });
   };
 
   const handleJoin = () => {
     if (gameCode.length !== 3) return toastError("Game code must be 3 characters");
-    if (username.length < 3) return toastError("Username must be at least 3 characters");
-    socket.emit("join-game", { id: "test", name: username, gameCode });
+    if (userData.name.length < 3) return toastError("Username must be at least 3 characters");
+    socket.emit("join-game", { id: "test", name: userData.name, gameCode });
   };
 
   return (
     <Layout>
       <div className="h-screen w-screen flex justify-center items-center bg-gray-500">
-        <div>
-          <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <div className="flex flex-col">
+          <input placeholder="Username" value={userData.name} onChange={(e) => setUserData({...userData,name:e.target.value})} />
           <input placeholder="Game Code" value={gameCode} onChange={(e) => setGameCode(e.target.value)} />
           <button onClick={() => handleJoin()}>Join</button>
           <button onClick={() => handleCreate()}>Create</button>

@@ -7,7 +7,7 @@ export const PlayerContext = createContext();
 
 export const PlayerProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const [playerId,setPlayerId] = useSessionStorage("id", null);
+  const [userData, setUserData] = useSessionStorage("user", { playerId: null, name: "" });
 
   const socketInitializer = async () => {
     await fetch("/api/socket");
@@ -15,6 +15,5 @@ export const PlayerProvider = ({ children }) => {
     setSocket(socket);
   };
 
-
-  return <PlayerContext.Provider value={{ socket , socketInitializer }}>{children}</PlayerContext.Provider>;
+  return <PlayerContext.Provider value={{ socket, socketInitializer, userData, setUserData }}>{children}</PlayerContext.Provider>;
 };
